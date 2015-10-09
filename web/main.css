@@ -1,0 +1,96 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 09-10-2015, 14:28:42
+    Author     : jonassimonsen
+*/
+.nav a {
+    color: #5a5a5a;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 14px 10px;
+    text-transform: uppercase;
+}
+
+.nav li {
+    display: inline;
+}
+
+.jumbotron {
+    background-image:url('image/background.jpg');
+    height: 500px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.jumbotron .container {
+    position: relative;
+    top:100px;
+}
+
+.jumbotron h1 {
+    color: #fff;
+    font-size: 48px;  
+    font-family: 'Shift', sans-serif;
+    font-weight: bold;
+}
+
+.jumbotron p {
+    font-size: 20px;
+    color: #fff;
+}
+
+.learn-more {
+    background-color: #f7f7f7;
+}
+
+.learn-more h3 {
+    font-family: 'Shift', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.learn-more a {
+    color: #00b0ff;
+}
+
+.members {
+    background-color: #f7f7f7;
+    height: 500px;
+}
+
+.members h3 {
+    font-family: 'Shift', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.andreaspicture {
+    background-image:url('image/background.jpg');
+    width: 180px;
+    height: 180px;
+    background-size:cover; 
+    background-position: center; 
+    background-repeat:no-repeat; 
+}
+
+.christianpicture {
+    background-image:url('image/background.jpg');
+    width: 180px;
+    height: 180px;
+    background-size:cover; 
+    background-position: center; 
+    background-repeat:no-repeat; 
+}
+
+.jonaspicture {
+    background-image:url('image/background.jpg');
+    width: 180px;
+    height: 180px;
+    background-size:cover; 
+    background-position: center; 
+    background-repeat:no-repeat; 
+}
