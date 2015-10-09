@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Welcome</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/bootstrap.css" rel="stylesheet">
+        <link rel="stylesheet" href="main.css">  
+        <script src ="js/respond.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#all").click(findAllPersons);
+            });
+            function findAllPersons() {
+
+                $("#showtable").css("display", "block");
+                var request = $.ajax({
+                    url: "api/person/",
+                    dataType: "json"
+                });
+                request.done(function (persons) {
+                    $("#table").text("");
+                    for (var i = 0; i < persons.length; i++) {
+                        $("#table").append("<tr>");
+                        $("#table").append("<td>" + persons[i].firstname + " " + persons[i].lastname + "</td>");
+                        $("#table").append("<td>" + persons[i].email + "</td>");
+                        $("#table").append("<td>" + persons[i].address.street + " " + persons[i].address.additionalinfo + " " + persons[i].address.cityinfo.city + " " + persons[i].address.cityinfo.zipcode + "</td>");
+                        var text = "<td> ";
+                        for (var x = 0; x < persons[i].phones.length; x++) {
+                            text += persons[i].phones[x].number + " " + persons[i].phones[x].description + " ";
+                        }
+                        text += " </td>";
+                        $("#table").append(text);
+                        var text2 = "<td>";
+                        for (var j = 0; j < persons[i].hobbies.length; j++) {
+                            text2 += persons[i].hobbies[j].name + " " + persons[i].hobbies[j].description + " ";
+                        }
+                        text2 += " </td>";
+                        $("#table").append(text2);
+                        $("#table").append("</tr>");
+                    }
+                });
+                request.fail(function (jqXHR, textStatus) {
+                    jsonValue = jQuery.parseJSON(jqXHR.responseText);
+                    alert("Request failed: " + jsonValue.message);
+                });
+            }
+        </script>  
+    </head>
+    <body>
+        <div class="nav">
+            <div class="container">
+                <ul class="pull-left">
+                    <li><a href="members.html">Who we are</a></li>
+                </ul>
+                <ul class="pull-right">
+                    <li><a href="#">Create, Edit or Delete</a></li>
+                    <li><a href="#">Search Company</a></li>
+                    <li><a href="person.html">Search Person & Hobby</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="jumbotron">
+            <div class="container">
+                <h1> Search </h1>
+                <h2> Search for, create, edit or delete a person </h2>
+                <h2> Search for, create, edit or delete a company </h2>
+            </div>      
+        </div>
+        
+        <div class="learn-more">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3>Members</h3>
+                        <p>With the opportunity to see members, you can see who made this possible to you.</p>
+                        <p><a href="members.html">View the members</a></p>
+                    </div>
+                    <div class="col-md-4">
+                        <h3>Documentation</h3>
+                        <p>With the documentation you are able to see who did what. Please notice you need a username and password to access the documentation.</p>
+                        <p><a href="#">View the documentation</a></p>
+                    </div>
+                    <div class="col-md-4">
+                        <h3>Source code</h3>
+                        <p>If you whan to see how me made this possible, you are free to take a look at the souce code on github just press the link.</p>
+                        <p><a href="#">View the source code</a></p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Welcome</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/bootstrap.css" rel="stylesheet">
+        <link rel="stylesheet" href="main.css">  
+        <script src ="js/respond.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#all").click(findAllPersons);
+                $("#findphone").click(findPersonPhone);
+                $("#findfromzip").click(FindFromZip);
+                $("#createperson").click(createPerson);
+                $("#changeAddress").click(changeAddress);
+                $("#deletePerson").click(deletePerson);
+
+
+//                $("#addHobby").click(addHobby);
+            });
+
+            function createPerson() {
+                var request = $.ajax({
+                    url: 'api/person/create',
+                    dataType: 'json',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify({"firstname": $("#fname").val(), "lastname": $("#lname").val(), "email": $("#email").val(), "street": $("#street").val(), "additionalinfo": $("#info").val(), "zipcode": $("#zip").val(), "phone": $("#phone").val(), "phoneinfo": $("#phoneinfo").val()}),
+                    processData: false
+                });
+                request.done(function (jqXHR, textStatus) {
+                    alert("Person created!");
+
+                });
+                request.fail(function (jqXHR, textStatus) {
+                    var jsonValue = jQuery.parseJSON(jqXHR.responseText);
+                    alert("Request failed: " + jsonValue.message);
+                });
+            }
+
+            function changeAddress() {
+                var number = $("#changeaddressphone").val();
+                var personid = "";
+                var request1 = $.ajax({
+                    url: "api/person/phone/" + number,
+                    dataType: "json"
+                });
+                request1.done(function (persons) {
+                    personid = persons.id;
+                    var json = JSON.stringify({"id": personid, "street": $("#changeaddressstreet").val(), "additionalinfo": $("#changeaddressinfo").val(), "zipcode": $("#changeaddresszip").val()});
+                    var request2 = $.ajax({
+                        url: 'api/person/address',
+                        dataType: 'json',
+                        type: 'post',
+                        contentType: 'application/json',
+                        data: json,
+                        processData: false
+                    });
+                    request2.done(function (jqXHR, textStatus) {
+                        alert("Address changed!");
+
+                    });
+                    request2.fail(function (jqXHR, textStatus) {
+                        var jsonValue = jQuery.parseJSON(jqXHR.responseText);
+                        alert("Request failed: " + jsonValue.message);
+                    });
+
+                });
+                request1.fail(function (jqXHR, textStatus) {
+                    var jsonValue = jQuery.parseJSON(jqXHR.responseText);
+                    alert("Request failed: " + jsonValue.message);
+                });
+
+
+            }
+
+            function deletePerson() {
+                var number = $("#deletePersonPhone").val();
+                var personid = "";
+                var request1 = $.ajax({
+                    url: "api/person/phone/" + number,
+                    dataType: "json"
+                });
+                request1.done(function (persons) {
+                    personid = persons.id;
+                    var json = JSON.stringify({"id": personid});
+                    var request2 = $.ajax({
+                        url: 'api/person/delete',
+                        dataType: 'json',
+                        type: 'delete',
+                        contentType: 'application/json',
+                        data: json,
+                        processData: false
+                    });
+                    request2.done(function (jqXHR, textStatus) {
+                        alert("Person deleted!");
+
+                    });
+                    request2.fail(function (jqXHR, textStatus) {
+                        var jsonValue = jQuery.parseJSON(jqXHR.responseText);
+                        alert("Request failed: " + jsonValue.message);
+                    });
+
+                });
+                request1.fail(function (jqXHR, textStatus) {
+                    var jsonValue = jQuery.parseJSON(jqXHR.responseText);
+                    alert("Request failed: " + jsonValue.message);
+                });
+
+
+            }
+
+            function findAllPersons() {
+
+                var request = $.ajax({
+                    url: "api/person/",
+                    dataType: "json"
+                });
+                request.done(function (persons) {
+                    $("#table").text("");
+
+                    for (var i = 0; i < persons.length; i++) {
+                        $("#table").append("<tr>");
+                        $("#table").append("<td>" + persons[i].firstname + " " + persons[i].lastname + "</td>");
+                        $("#table").append("<td>" + persons[i].email + "</td>");
+                        $("#table").append("<td>" + persons[i].address.street + " " + persons[i].address.additionalinfo + " " + persons[i].address.cityinfo.city + " " + persons[i].address.cityinfo.zipcode + "</td>");
+                        var text = "<td> ";
+                        for (var x = 0; x < persons[i].phones.length; x++) {
+                            text += persons[i].phones[x].number + " " + persons[i].phones[x].description + " ";
+                        }
+                        text += " </td>";
+                        $("#table").append(text);
+                        var text2 = "<td>";
+                        for (var j = 0; j < persons[i].hobbies.length; j++) {
+                            text2 += persons[i].hobbies[j].name + " " + persons[i].hobbies[j].description + " ";
+                        }
+                        text2 += " </td>";
+                        $("#table").append(text2);
+                        $("#table").append("</tr>");
+                    }
+                });
+                request.fail(function (jqXHR, textStatus) {
+                    jsonValue = jQuery.parseJSON(jqXHR.responseText);
+                    alert("Request failed: " + jsonValue.message);
+                });
+            }
+
+            function FindFromZip() {
+                var zip = $("#zipcode").val();
+                var request = $.ajax({
+                    url: "api/person/zip/" + zip,
+                    dataType: "json"
+                });
+                request.done(function (persons) {
+                    $("#table").text("");
+
+                    for (var i = 0; i < persons.length; i++) {
+                        $("#table").append("<tr>");
+                        $("#table").append("<td>" + persons[i].firstname + " " + persons[i].lastname + "</td>");
+                        $("#table").append("<td>" + persons[i].email + "</td>");
+                        $("#table").append("<td>" + persons[i].address.street + " " + persons[i].address.additionalinfo + " " + persons[i].address.cityinfo.city + " " + persons[i].address.cityinfo.zipcode + "</td>");
+                        var text = "<td> ";
+                        for (var x = 0; x < persons[i].phones.length; x++) {
+                            text += persons[i].phones[x].number + " " + persons[i].phones[x].description + " ";
+                        }
+                        text += " </td>";
+                        $("#table").append(text);
+                        var text2 = "<td>";
+                        for (var j = 0; j < persons[i].hobbies.length; j++) {
+                            text2 += persons[i].hobbies[j].name + " " + persons[i].hobbies[j].description + " ";
+                        }
+                        text2 += " </td>";
+                        $("#table").append(text2);
+                        $("#table").append("</tr>");
+                    }
+                });
+                request.fail(function (jqXHR, textStatus) {
+                    jsonValue = jQuery.parseJSON(jqXHR.responseText);
+                    alert("Request failed: " + jsonValue.message);
+                    alert("Request failed: " + zip);
+                });
+            }
+
+            function findPersonPhone() {
+                var number = $("#number").val();
+                var request = $.ajax({
+                    url: "api/person/phone/" + number,
+                    dataType: "json"
+                });
+                request.done(function (persons) {
+                    $("#table").text("");
+
+                    $("#table").append("<tr>");
+                    $("#table").append("<td>" + persons.firstname + " " + persons.lastname + "</td>");
+                    $("#table").append("<td>" + persons.email + "</td>");
+                    $("#table").append("<td>" + persons.address.street + " " + persons.address.additionalinfo + " " + persons.address.cityinfo.city + " " + persons.address.cityinfo.zipcode + "</td>");
+                    var text = "<td>";
+                    for (var x = 0; x < persons.phones.length; x++) {
+                        text += persons.phones[x].number + " " + persons.phones[x].description + " ";
+                    }
+                    text += "</td>";
+                    $("#table").append(text);
+                    var text2 = "<td>";
+                    for (var j = 0; j < persons.hobbies.length; j++) {
+                        text2 += persons.hobbies[j].name + " " + persons.phones[j].description + " ";
+                    }
+                    text2 += "</td>";
+                    $("#table").append(text2);
+                    $("#table").append("</tr>");
+
+                });
+                request.fail(function (jqXHR, textStatus) {
+                    var jsonValue = jQuery.parseJSON(jqXHR.responseText);
+                    alert("Request failed: " + jsonValue.message);
+                });
+            }
+            ;
+            
+            $(document).ready(function () {
+
+                $(getHobbies);
+                $("#createhobby").click(createHobby);
+                $("#deletehobby").click(deleteHobby);
+                
+            });
+
+                function deleteHobby(){
+                    var e = document.getElementById("list");
+                    var hobname = e.options[e.selectedIndex].value;
+                    
+                    var request = $.ajax({
+                    url: 'api/person/hobby/delete',
+                    dataType: 'json',
+                    type: 'delete',
+                    contentType: 'application/json',
+                    data: JSON.stringify({"name": hobname}),
+                    processData: false
+                });
+                request.done(function (jqXHR, textStatus) {
+                    alert("Hobby deleted!");
+                    $(getHobbies);
+
+                });
+                request.fail(function (jqXHR, textStatus) {
+                    var jsonValue = jQuery.parseJSON(jqXHR.responseText);
+                    alert("Request failed: " + jsonValue.message);
+                });
+                }
+                
+                function createHobby(){
+                    var request = $.ajax({
+                    url: 'api/person/hobby/create',
+                    dataType: 'json',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify({"name": $("#hobby").val(), "description": $("#description").val()}),
+                    processData: false
+                });
+                request.done(function (jqXHR, textStatus) {
+                    alert("Hobby created!");
+                    $(getHobbies);
+
+                });
+                request.fail(function (jqXHR, textStatus) {
+                    var jsonValue = jQuery.parseJSON(jqXHR.responseText);
+                    alert("Request failed: " + jsonValue.message);
+                });
+                }
+                
+                function getHobbies() {
+
+                var request = $.ajax({
+                    url: "api/person/hobby",
+                    dataType: "json"
+                });
+                request.done(function (hobby) {
+                    $("#list").text("");
+                    for (var i = 0; i < hobby.length; i++) {
+                        var text = "<option ";
+                        text += "value=\""+ hobby[i].name;
+                        text += "\">";
+                        text += "Name: " + hobby[i].name;
+                        text += "</option>";
+                        $("#list").append(text);
+                    }
+                });
+                request.fail(function (jqXHR, textStatus) {
+                    alert("Request failed: " + textStatus);
+                });
+            }
+            
+            function getselected(){
+                var e = document.getElementById("list");
+                getUsers(e.options[e.selectedIndex].value);
+            }
+            
+            function getUsers(num) {
+
+                var request = $.ajax({
+                    url: "api/person/hobby/person/"+num,
+                    dataType: "json"
+                });
+                request.done(function (persons) {
+                    $("#plist").text("");
+                    $("#antal").text (persons.length);
+                    for (var i = 0; i < persons.length; i++) {
+                        var text = "<option> ";
+                        text += persons[i].firstname +" "+persons[i].lastname;
+                        text += "</option>";
+                        $("#plist").append(text);
+                    }
+                });
+                request.fail(function (jqXHR, textStatus) {
+                    alert("Request failed: " + textStatus);
+                });
+            }
+
+
+
+
+
+
+        </script>  
+    </head>
+    <body>
+    <div class="nav">
+        <div class="container">
+            <ul class="pull-left">
+                <li><a href="index.html">Back</a></li>
+            </ul>
+        </div>
+    </div>
+
+        <div class="jumbo">
+            <div class="container">
+                <h1>Search </h1>
+                <p>Search for, create, edit or delete a person </p>
+                <p><button class="btn btn-primary" id ="all">All persons</button>    Pres the button to see alle persons in the table</p>
+                <div>Person:</div>
+                <div>
+                    <button id ="createperson">Create Person</button> 
+                    First name:<input id="fname" type="text">
+                    Last name:<input id="lname" type="text">
+                    Email:<input id="email" type="text">
+                    Street:<input id="street" type="text">
+                    Additional info:<input id="info" type="text">
+                    Zipcode:<input id="zip" type="number">
+                    Phone:<input id="phone" type="number">
+                    Phone info:<input id="phoneinfo" type="text">
+                </div>
+                <br>
+                <div>
+                    <button id ="changeAddress">Change address for person with phone:</button>
+                    <input id="changeaddressphone" type="number">
+                    New street:<input id="changeaddressstreet" type="text">
+                    New additional info:<input id="changeaddressinfo" type="text">
+                    New zipcode:<input id="changeaddresszip" type="number">
+                </div>
+                <br>
+                <!--        <div>
+                            <button id ="addHobby">Add a hobby to a person with phone:</button>
+                            <input id="addHobbyphone" type="number">
+                            <input id="addHobbyName" type="text">
+                            <input id="addHobbyInfo" type="text">
+                        </div>
+                        <br>-->
+                <div>
+                    <button id ="deletePerson">Deletes a person with phone:</button>
+                    <input id="deletePersonPhone" type="number">
+                </div>
+                <br>
+                <div>
+                    <button id ="all">All persons</button>
+                    <button id ="findphone">Find person by phone</button>
+                    <input id="number" type="number">
+                    <button id ="findfromzip">Find person living in zipcode</button>
+                    <input id="zipcode" type="number">
+                    <table style="width:100%" border="1" >
+                        <thead>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Hobby</th>
+                        </thead>
+                        <tbody id="table">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div><h1>Hobby</h1></div>
+                <div>
+                    <p>All Hobbies</p><br>
+                    <div style="padding-bottom: 2em">
+                        <button id="createhobby">Create Hobby</button>
+                        Hobby name:<input id="hobby" type="text">
+                        Description:<input id="description" type="text">
+                    </div>
+                    <select name="listbox" id="list" style="width: 20em" size="5" onchange="getselected()">
+                        <option value="wait">wait</option>
+                    </select><br>
+                    <button id="deletehobby">Delete Hobby</button>
+                </div>
+                <div><h1 id="test"></h1></div>
+                <div>
+                    <select name="listbox" style="width: 20em" id="plist" size="5">
+                    </select>
+                    <p> Number of persons in chosen hobby ></p>
+                    <p id="antal"></p>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
