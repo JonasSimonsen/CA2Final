@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Persons</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/bootstrap.css" rel="stylesheet">
+        <link rel="stylesheet" href="main.css"> 
+    </head>
+    <body>
+        <div class="nav">
+            <div class="container">
+                <ul class="pull-left">
+                    <li><a href="index.html">Back</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>API Documentation</h4>
+                    <table style="width:100%" border="1">
+                        <thead>
+                        <th>Path</th>
+                        <th>Request Type</th>
+                        <th>Description</th> 
+                        <th>Parameters/Return Json</th>
+
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>PERSON API:</td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                                <td>api/person</td>
+                                <td>GET</td>
+                                <td>Return an array of all persons in DB</td>
+                                <td>[{id,firstname,lastname,email,address{id,street,additionalinfo,cityinfo{zipcode,city}},phones[{number,description}],hobbies[{id,name,description}]}]</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/person/{id}</td>
+                                <td>GET</td>
+                                <td>Return a person with given id</td>
+                                <td>{id,firstname,lastname,email,address{id,street,additionalinfo,cityinfo{zipcode,city}},phones[{number,description}],hobbies[{id,name,description}]}</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/person/create</td>
+                                <td>POST</td>
+                                <td>Creates person and address in DB and assigns address and phone to person</td>
+                                <td>{firstname, lastname, email, street, additionalinfo, zipcode,phone,phoneinfo}</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/person/delete</td>
+                                <td>DELETE</td>
+                                <td>Deletes person with given id from DB and attempts to delete address</td>
+                                <td>{id}</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/person/address</td>
+                                <td>POST</td>
+                                <td>Updates address for person and attempts to delete former address</td>
+                                <td>{id //person, street, additionalinfo, zipcode}</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/person/phone</td>
+                                <td>POST</td>
+                                <td>Creates and assign a phone to a person with given id</td>
+                                <td>{id //person, number, description}</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/person/phone</td>
+                                <td>DELETE</td>
+                                <td>Deletes phone with given number</td>
+                                <td>[number]</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/person/phone/{id}</td>
+                                <td>GET</td>
+                                <td>Returns person with given number</td>
+                                <td>{id,firstname,lastname,email,address{id,street,additionalinfo,cityinfo{zipcode,city}},phones[{number,description}],hobbies[{id,name,description}]}</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/person/hobby/create</td>
+                                <td>POST</td>
+                                <td>Creates a hobby with given parameters</td>
+                                <td>{name,description}</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/person/hobby/count/{name}</td>
+                                <td>GET</td>
+                                <td>Returns count of people with hobby with given name</td>
+                                <td>"count"</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/person/hobby/add</td>
+                                <td>POST</td>
+                                <td>Add hobby with given hobbyName to person with given personid</td>
+                                <td>{hobbyName,personid}</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/person/hobby/delete</td>
+                                <td>DELETE</td>
+                                <td>Delete hobby with given name from DB</td>
+                                <td>{id}</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/person/hobby/person/{name}</td>
+                                <td>GET</td>
+                                <td>Returns array of persons with hobby that contains given name</td>
+                                <td>[{id,firstname,lastname,email,address{id,street,additionalinfo,cityinfo{zipcode,city}},phones[{number,description}],hobbies[{id,name,description}]}]</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/person/hobby</td>
+                                <td>POST</td>
+                                <td>Removes a hobby with given id from person with given id</td>
+                                <td>{hobbyName, personid}</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/person/hobby</td>
+                                <td>GET</td>
+                                <td>Returns array with all hobbies</td>
+                                <td>[{name,description}]</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/person/hobby/{name}</td>
+                                <td>GET</td>
+                                <td>Returns hobby with given name</td>
+                                <td>{name,description,persons[{id //person,firstname,lastname,email,address{id //address,street,additionalinfo,cityinfo{zipcode,city}},phones[{number,description}]}]}</td>
+
+                            </tr>
+                            <tr>
+                                <td>COMPANY API:</td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                                <td>api/company</td>
+                                <td>GET</td>
+                                <td>Returns array of all companies</td>
+                                <td>[{id,name,description,cvr,email,street,additionalinfo,zipcode,city,phones[{number,description}],numemployees,marketvalue}]</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/company/{id}</td>
+                                <td>GET</td>
+                                <td>Returns a company with given id</td>
+                                <td>{id,name,description,cvr,email,street,additionalinfo,zipcode,city,phones[{number,description}],numemployees,marketvalue}</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/company/cvr/{cvr}</td>
+                                <td>GET</td>
+                                <td>Returns a company with the given cvr</td>
+                                <td>{id,,name,description,cvr,email,street,additionalinfo,zipcode,city,phones[{number,description}],numemployees,marketvalue}</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/company/create</td>
+                                <td>POST</td>
+                                <td>Creates a company and assigns an address</td>
+                                <td>{name, description, cvr, numemployees, marketvalue, email, street, additionalinfo, zipcode}</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/company/phone/{phoneNumber}</td>
+                                <td>GET</td>
+                                <td>Returns a company with given phonenumber</td>
+                                <td>{id,name,description,cvr,email,street,additionalinfo,zipcode,city,phones[{number,description}],numemployees,marketvalue}</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/company/phone</td>
+                                <td>POST</td>
+                                <td>Creates a phone and assigns to company with given id</td>
+                                <td>{id //company, number, description}</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/company/phone</td>
+                                <td>DELETE</td>
+                                <td>Deletes phone with given number from a company</td>
+                                <td>[phoneNumber]</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/company/delete</td>
+                                <td>DELETE</td>
+                                <td>Deletes a company with given id and attempts to delete address</td>
+                                <td>[id]</td>
+
+                            </tr>
+                            <tr>
+                                <td>api/company/address</td>
+                                <td>POST</td>
+                                <td>Changes an address for a company with given id and attempts to delete former address</td>
+                                <td>{id, street, additionalinfo, zipcode}</td>
+
+                            </tr>
+                            <tr>
+                                <td>ADDRESS API:</td>
+                                <td> </td>
+                                <td> </td>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                                <td>api/zip</td>
+                                <td>GET</td>
+                                <td>Returns an array containing all cityInfo objects</td>
+                                <td>[{zipcode,city}] </td>
+
+                            </tr>
+                            <tr>
+                                <td>api/zip</td>
+                                <td>DELETE</td>
+                                <td>Deletes an address from DB if it does not contain any Person or Company</td>
+                                <td>[id] </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
