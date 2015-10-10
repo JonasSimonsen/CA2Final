@@ -9,7 +9,8 @@ and open the template in the editor.
         <title>ZipCodes</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/bootstrap.css" rel="stylesheet">
+        <link rel="stylesheet" href="main.css">
         <script src ="js/respond.js"></script>
         <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
         <script>
@@ -29,7 +30,7 @@ and open the template in the editor.
 
                 request.done(function (zip) {
                     $("#table").text("");
-                    for (var i = 0; i < zip.length ; i++) {
+                    for (var i = 0; i < zip.length; i++) {
                         var text = "<tr><td>" + zip[i].zipcode + "</td>";
                         text += "<td>" + zip[i].city + "</td>";
                         text += "</tr>";
@@ -46,17 +47,28 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-        <div><h1>List of ZipCodes</h1></div>
-        <div>
-            <table style="width:100%" border="1" >
-                <thead>
-                <th>ZipCode</th>
-                <th>City</th>
-                </thead>
-                <tbody id="table">
-                    <tr><td>wait loading</td></tr>
-                </tbody>
-            </table>
+        <div class="nav">
+            <div class="container">
+                <ul class="pull-left">
+                    <li><a href="index.html">Back</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>All ZipCodes in Denmark</h4>
+                    <table style="width:100%" border="1" >
+                        <thead>
+                        <th>ZipCode</th>
+                        <th>City</th>
+                        </thead>
+                        <tbody id="table">
+                            <tr><td>wait loading</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </body>
 </html>
