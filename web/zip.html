@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>ZipCodes</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <script src ="js/respond.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                $(createZipCodes);
+
+            });
+
+
+            function createZipCodes() {
+
+                var request = $.ajax({
+                    url: "api/address/zip",
+                    dataType: "json"
+                });
+
+                request.done(function (zip) {
+                    $("#table").text("");
+                    for (var i = 0; i < zip.length ; i++) {
+                        var text = "<tr><td>" + zip[i].zipcode + "</td>";
+                        text += "<td>" + zip[i].city + "</td>";
+                        text += "</tr>";
+                        $("#table").append(text);
+                    }
+                });
+
+                request.fail(function (textStatus) {
+                    $("#table").text("reload page or try again later");
+                    alert("Request failed: " + textStatus);
+                });
+
+            }
+        </script>
+    </head>
+    <body>
+        <div><h1>List of ZipCodes</h1></div>
+        <div>
+            <table style="width:100%" border="1" >
+                <thead>
+                <th>ZipCode</th>
+                <th>City</th>
+                </thead>
+                <tbody id="table">
+                    <tr><td>wait loading</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

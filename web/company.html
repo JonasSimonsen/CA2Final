@@ -9,8 +9,179 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/bootstrap.css" rel="stylesheet">
+        <link rel="stylesheet" href="main.css">
+        <script src ="js/respond.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                $("#btn1").click(getall);
+                $("#btn2").click(getFromPhone);
+                $("#btn3").click(getFromCVR);
+                $("#btn4").click(function () {
+                    window.location.href = "createCompany.html"
+                });
+                $("#btn5").click(function () {
+                    window.location.href = "editdelcomp.html"
+                });
+
+            });
+
+            function getall() {
+
+                var request = $.ajax({
+                    url: "api/company",
+                    dataType: "json"
+                });
+
+                request.done(function (comp) {
+                    $("#table").text("");
+                    for (var i = 0; i < comp.length; i++) {
+                        var text = "<tr>";
+                        text += "<td>" + comp[i].name + "</td>";
+                        text += "<td>" + comp[i].description + "</td>";
+                        text += "<td>" + comp[i].cvr + "</td>";
+                        text += "<td>" + comp[i].email + "</td>";
+                        text += "<td>" + comp[i].street + "</td>";
+                        text += "<td>" + comp[i].additionalinfo + "</td>";
+                        text += "<td>" + comp[i].zipcode + "</td>";
+                        text += "<td>" + comp[i].city + "</td>";
+                        text += "<td>";
+                        for (var x = 0; x < comp[i].phones.length; x++) {
+                            text += comp[i].phones[x].number + " "
+                            text += comp[i].phones[x].description + "<br>";
+                        }
+                        text += "</td>";
+                        text += "</tr>";
+                        $("#table").append(text);
+                    }
+                });
+
+                request.fail(function (jqXHR, textStatus) {
+                    alert("Request failed: " + textStatus);
+                }
+                );
+            }
+
+            function getFromPhone() {
+
+                var request = $.ajax({
+                    url: "api/company/phone/" + $("#phone").val(),
+                    dataType: "json"
+                });
+
+                request.done(function (comp) {
+                    $("#table").text("");
+                    var text = "<tr>";
+                    text += "<td>" + comp.name + "</td>";
+                    text += "<td>" + comp.description + "</td>";
+                    text += "<td>" + comp.cvr + "</td>";
+                    text += "<td>" + comp.email + "</td>";
+                    text += "<td>" + comp.street + "</td>";
+                    text += "<td>" + comp.additionalinfo + "</td>";
+                    text += "<td>" + comp.zipcode + "</td>";
+                    text += "<td>" + comp.city + "</td>";
+                    text += "<td>";
+                    for (var x = 0; x < comp.phones.length; x++) {
+                        text += comp.phones[x].number + " "
+                        text += comp.phones[x].description + "<br>";
+                    }
+                    text += "</td>";
+                    text += "</tr>";
+                    $("#table").append(text);
+
+                });
+
+                request.fail(function (jqXHR, textStatus) {
+                    alert("Request failed: " + textStatus);
+                }
+                );
+            }
+
+            function getFromCVR() {
+
+                var request = $.ajax({
+                    url: "api/company/cvr/" + $("#cvr").val(),
+                    dataType: "json"
+                });
+
+                request.done(function (comp) {
+                    $("#table").text("");
+                    var text = "<tr>";
+                    text += "<td>" + comp.name + "</td>";
+                    text += "<td>" + comp.description + "</td>";
+                    text += "<td>" + comp.cvr + "</td>";
+                    text += "<td>" + comp.email + "</td>";
+                    text += "<td>" + comp.street + "</td>";
+                    text += "<td>" + comp.additionalinfo + "</td>";
+                    text += "<td>" + comp.zipcode + "</td>";
+                    text += "<td>" + comp.city + "</td>";
+                    text += "<td>";
+                    for (var x = 0; x < comp.phones.length; x++) {
+                        text += comp.phones[x].number + " "
+                        text += comp.phones[x].description + "<br>";
+                    }
+                    text += "</td>";
+                    text += "</tr>";
+                    $("#table").append(text);
+                });
+
+                request.fail(function (jqXHR, textStatus) {
+                    alert("Request failed: " + textStatus);
+                }
+                );
+            }
+        </script>   
     </head>
     <body>
-        <div>TODO write content</div>
+        <div class="nav">
+            <div class="container">
+                <ul class="pull-left">
+                    <li><a href="index.html">Back</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="members">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>Find Company by phone</h4>
+                        <div class="form-group">
+                            <input id="phone" type="number" class="form-control" placeholder="Phone Number">
+                        </div>
+                        <p><button class="btn btn-primary" id ="btn2">Find Company</button></p>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Find Company by cvr</h4>
+                        <div class="form-group">
+                            <input id="cvr" type="number" class="form-control" placeholder="CVR Number">
+                        </div>
+                        <p><button class="btn btn-primary" id ="btn3">Find Company</button></p>
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <p><button class="btn btn-primary" id ="btn1">All Companies</button></p>
+                </div>
+                <div>
+                    <table style="width:100%" border="1" >
+                        <thead>
+                        <th>Name</th>
+                        <th>Description</th>              
+                        <th>CVR</th>
+                        <th>Email</th>              
+                        <th>StreetCode</th>
+                        <th>Additional Info</th>
+                        <th>Zipcode</th>
+                        <th>City</th>              
+                        <th>Phones</th>              
+                        </thead>
+                        <tbody id="table"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
