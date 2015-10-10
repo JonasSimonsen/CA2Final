@@ -132,6 +132,31 @@ and open the template in the editor.
                 }
                 );
             }
+
+
+
+            $(document).ready(function () {
+                $("#save").click(createCompany);
+            });
+
+            function createCompany() {
+                var request = $.ajax({
+                    url: 'api/company/create',
+                    dataType: 'json',
+                    type: 'post',
+                    contentType: 'application/json',
+                    data: JSON.stringify({"name": $("#name").val(), "description": $("#description").val(), "cvr": $("#cvr").val(), "numemployees": $("#noe").val(), "marketvalue": $("#mv").val(), "email": $("#email").val(), "street": $("#street").val(), "additionalinfo": $("#info").val(), "zipcode": $("#zip").val(), "number": $("#number").val(), "phonedescript": $("#phoneinfo").val()}),
+                    processData: false
+                });
+                request.done(function (jqXHR, textStatus) {
+                    alert("Company created!");
+
+                });
+                request.fail(function (jqXHR, textStatus) {
+                    var jsonValue = jQuery.parseJSON(jqXHR.responseText);
+                    alert("Request failed: " + jsonValue.message);
+                });
+            }
         </script>   
     </head>
     <body>
@@ -159,6 +184,43 @@ and open the template in the editor.
                             <input id="cvr" type="number" class="form-control" placeholder="CVR Number">
                         </div>
                         <p><button class="btn btn-primary" id ="btn3">Find Company</button></p>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Create Company</h4>
+                        <div class="form-group">
+                            <input id="name" type="text" class="form-control" placeholder="Company Name">
+                        </div>
+                        <div class="form-group">
+                            <input id="description" type="text" class="form-control" placeholder="Description">
+                        </div>
+                        <div class="form-group">
+                            <input id="cvr" type="text" class="form-control" placeholder="CVR Number">
+                        </div>
+                        <div class="form-group">
+                            <input id="noe" type="text" class="form-control" placeholder="Number of employees">
+                        </div>
+                        <div class="form-group">
+                            <input id="mv" type="text" class="form-control" placeholder="Market value">
+                        </div>
+                        <div class="form-group">
+                            <input id="email" type="text" class="form-control" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <input id="street" type="text" class="form-control" placeholder="Street Name">
+                        </div>
+                        <div class="form-group">
+                            <input id="info" type="text" class="form-control" placeholder="Additional Info">
+                        </div>
+                        <div class="form-group">
+                            <input id="zip" type="text" class="form-control" placeholder="Zipcode">
+                        </div>
+                        <div class="form-group">
+                            <input id="number" type="text" class="form-control" placeholder="Phone Number">
+                        </div>
+                        <div class="form-group">
+                            <input id="phoneinfo" type="text" class="form-control" placeholder="Phone Description">
+                        </div>
+                        <button id="save" class="btn btn-primary">Create Company</button>
                     </div>
                 </div>
                 <br>
