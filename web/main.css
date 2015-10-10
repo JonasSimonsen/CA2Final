@@ -101,3 +101,7 @@ and open the template in the editor.
     background-position: center; 
     background-repeat:no-repeat; 
 }
+
+.col-md-4 {
+width: 33.33%
+}

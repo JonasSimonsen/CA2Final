@@ -1,6 +1,12 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
 <html>
     <head>
-        <title>Persons</title>
+        <title>Create, Edit, Delete</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/bootstrap.css" rel="stylesheet">
@@ -15,7 +21,6 @@
                 $("#createperson").click(createPerson);
                 $("#changeAddress").click(changeAddress);
                 $("#deletePerson").click(deletePerson);
-
 
 //                $("#addHobby").click(addHobby);
             });
@@ -331,44 +336,105 @@
                 </ul>
             </div>
         </div>
-
         <div class="members">
             <div class="container">
                 <div class="row">
                     <div class="col-md-4">
-                        <h4>Find person by phone</h4>
+                        <h4>Create Person</h4>
                         <div class="form-group">
-                            <input id="number" type="number" class="form-control" placeholder="Number">
+                            <input id="fname" type="text" class="form-control" placeholder="First Name...">
                         </div>
-                        <p><button class="btn btn-primary" id ="findphone">Find person</button></p>
+                        <div class="form-group">
+                            <input id="lname" type="text" class="form-control" placeholder="Last Name...">
+                        </div>
+                        <div class="form-group">
+                            <input id="email" type="text" class="form-control" placeholder="E-mail...">
+                        </div>
+                        <div class="form-group">
+                            <input id="street" type="text" class="form-control" placeholder="Street">
+                        </div>
+                        <div class="form-group">
+                            <input id="info" type="text" class="form-control" placeholder="Additional info">
+                        </div>
+                        <div class="form-group">
+                            <input id="zip" type="number" class="form-control" placeholder="Zipcode">
+                        </div>
+                        <div class="form-group">
+                            <input id="phone" type="number" class="form-control" placeholder="Phone">
+                        </div>
+                        <div class="form-group">
+                            <input id="phoneinfo" type="text" class="form-control" placeholder="Phone info">
+                        </div>
+                        <button id="createperson" class="btn btn-primary">Create Person</button>
                     </div>
                     <div class="col-md-4">
-                        <h4>Find person by zipcode</h4>
+                        <h4>Change address for person with phone</h4>
                         <div class="form-group">
-                            <input id="zipcode" type="number" class="form-control" placeholder="Zipcode">
+                            <input id="changeaddressphone" type="number" class="form-control" placeholder="Number">
+                        </div> 
+                        <div class="form-group">
+                            <input id="changeaddressstreet" type="text" class="form-control" placeholder="New street">
                         </div>
-                        <p><button class="btn btn-primary" id ="findfromzip">Find person</button></p>
+                        <div class="form-group">
+                            <input id="changeaddressinfo" type="text" class="form-control" placeholder="New additional info">
+                        </div>
+                        <div class="form-group">
+                            <input id="changeaddresszip" type="text" class="form-control" placeholder="New zipcode">
+                        </div>
+                        <button id="changeAddress" class="btn btn-primary">Change address</button>
                     </div>
-                </div>
-                <br>
-                <div>
-                    <p><button class="btn btn-primary" id ="all">All persons</button></p>
-                </div>
-                <div>
-                    <table style="width:100%" border="1" >
+                    <div class="col-md-4">
+                        <h4>Delete person with phone</h4>
                         <div class="form-group">
-                            <thead>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Address</th>
-                            <th>Phone</th>
-                            <th>Hobby</th>
-                            </thead>
-                            <tbody id="table"></tbody>
-                        </div>
-                    </table>
+                            <input id="deletePersonPhone" type="number" class="form-control" placeholder="Number">
+                        </div> 
+                        <button id="deletePerson" class="btn btn-primary">Delete person</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </body>
-</html>
+        <div class="members">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>Create Hobby</h4>
+                        <div class="form-group">
+                            <input id="hobby" type="text" class="form-control" placeholder="Hobby">
+                        </div>
+                        <div class="form-group">
+                            <input id="description" type="text" class="form-control" placeholder="Hobby description">
+                        </div>
+                        <button id="deletePerson" class="btn btn-primary">Create hobby</button>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Delete hobby</h4>
+                        <div class="form-group">
+                            <select name="listbox" id="list" style="width: 100%" size="4" onchange="getselected()">
+                                <option value="wait">wait</option>
+                            </select>
+                        </div>
+                            <button id="deletehobby" class="btn btn-primary">Delete hobby</button>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Persons with chosen hobby</h4>
+                        <div class="form-group">
+                            <select name="listbox" id="plist" style="width: 100%" size="4">
+                                <option value="wait">wait</option>
+                            </select><br>
+                        </div>
+                         <p id="antal"></p>
+                    </div>
+                        
+
+
+
+
+
+                        </div>
+                        <div><h1 id="test"></h1></div>
+                        <div>
+                            
+
+
+                    </body>
+                    </html>
